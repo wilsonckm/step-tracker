@@ -7,27 +7,59 @@
 
 import SwiftUI
 
+//Picker cases
+enum HealthMetricContent: CaseIterable, Identifiable {
+    case steps, weight
+
+    var id: Self { self }
+    
+    var title: String {
+        switch self {
+        case .steps:
+            return "Steps"
+        case .weight:
+            return "Weight"
+        }
+    }
+}
+
 struct ContentView: View {
+    @State private var selectedStat: HealthMetricContent = .steps
+    var isSteps: Bool { selectedStat == .steps }
+    
     var body: some View {
         NavigationStack {
             ScrollView {
+                Picker("Selected Stat", selection: $selectedStat) {
+                    ForEach(HealthMetricContent.allCases) { metric in
+                        Text(metric.title)
+                    }
+                }
+                .pickerStyle(.segmented)
+                
                 VStack (spacing: 20) {
                     VStack {
-                        HStack {
-                            VStack(alignment:.leading) {
-                                Label("Steps", systemImage: "figure.walk")
-                                    .foregroundStyle(.pink)
-                                    .font(.title3.bold())
-                                HStack {
-                                    Text("Avg: 10k Steps")
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
+                        NavigationLink(value: selectedStat) {
+                            HStack {
+                                VStack(alignment:.leading) {
+                                    Label("Steps", systemImage: "figure.walk")
+                                        .foregroundStyle(.pink)
+                                        .font(.title3.bold())
+                                    HStack {
+                                        Text("Avg: 10k Steps")
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
                                 }
+                                Spacer()
+                                
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.secondary)
                             }
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .foregroundColor(.secondary)
                         }
+                        .foregroundStyle(.secondary)
+                        .padding(.bottom, 12)
+                        
                         RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
                             .frame(height: 200)
                     }
@@ -55,7 +87,11 @@ struct ContentView: View {
             }
             .padding()
             .navigationTitle("Dashboard")
+            .navigationDestination(for: HealthMetricContent.self) { metric in
+                Text(metric.title)
+            }
         }
+        .tint(isSteps ? .pink : .indigo)
     }
 }
 #Preview {
