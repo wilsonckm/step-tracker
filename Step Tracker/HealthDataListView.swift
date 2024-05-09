@@ -33,8 +33,7 @@ struct HealthDataListView: View {
             }
         }
     }
-    
-    
+
     //Add Data Sheet
     var addDataView: some View {
         NavigationStack {
