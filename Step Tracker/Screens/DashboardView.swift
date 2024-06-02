@@ -42,25 +42,8 @@ struct DashboardView: View {
                     }
                 }
                 .pickerStyle(.segmented)
-                    
                     StepBarChart(selectedStat: selectedStat, chartData: hkManager.stepData)
-                    
-                    VStack(alignment: .leading) {
-                        VStack(alignment:.leading) {
-                            Label("Averages", systemImage: "calendar")
-                                .foregroundColor(.pink)
-                                .font(.title3.bold())
-                            HStack {
-                                Text("Last 28 Days")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
-                        }
-                        RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/)
-                            .frame(height: 200)
-                    }
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: /*@START_MENU_TOKEN@*/25.0/*@END_MENU_TOKEN@*/).fill(Color(.secondarySystemBackground)))
+                    StepPieChart(chartData: ChartMath.averageWeekdayCount(for: hkManager.stepData))
                 }
                 .padding()
             }
