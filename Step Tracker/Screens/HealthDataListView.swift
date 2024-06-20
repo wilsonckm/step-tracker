@@ -9,10 +9,11 @@ import SwiftUI
 
 struct HealthDataListView: View {
     
-    var metric: HealthMetricContent
     @State private var isShowingAddData = false
     @State private var valueToAdd: String = ""
     @State private var addDataDate: Date = .now
+    
+    var metric: HealthMetricContent
     
     var body: some View {
         List(0..<28) { i in
